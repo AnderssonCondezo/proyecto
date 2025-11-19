@@ -4,7 +4,7 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
   const nombre = document.getElementById('nombre').value.trim();
   const apellido = document.getElementById('apellido').value.trim();
 
-  fetch('https://jsonplaceholder.typicode.com/posts', {
+  fetch('https://default1c0051dd45964b1a9849d060735057.69.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/4e4dce2290cf4fb38568e3681139f7f9/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=iSotLrXkwNwKB4uwabWRd8RQJIYHg433QTGayfe6B98', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -24,3 +24,4 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
     console.error('Error:', error);
   });
 });
+
