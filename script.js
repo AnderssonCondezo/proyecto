@@ -31,7 +31,7 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
   .then(response => {
     // Verificar si la respuesta fue exitosa
     if (!response.ok) {
-      throw new Error('Error en la respuesta del servidor');
+      throw new Error(`Error en la respuesta del servidor. Código de estado: ${response.status}`);
     }
 
     // Verificar si la respuesta tiene contenido
@@ -59,12 +59,7 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
   })
   .catch(error => {
     // En caso de error, mostrar un mensaje
-    document.getElementById('respuesta').textContent = 'Ocurrió un error ❌';
+    document.getElementById('respuesta').textContent = `Ocurrió un error: ${error.message} ❌`; // Información más detallada
     console.error('Error:', error);
   });
 });
-
-
-
-
-
