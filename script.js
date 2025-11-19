@@ -11,16 +11,22 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
     return;
   }
 
+  // Crear el cuerpo de la solicitud
+  const requestBody = {
+    nombre: nombre,
+    apellido: apellido
+  };
+
+  // URL de la API (podrías poner esto en una variable o archivo de configuración)
+  const apiUrl = 'https://default1c0051dd45964b1a9849d060735057.69.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/4e4dce2290cf4fb38568e3681139f7f9/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=iSotLrXkwNwKB4uwabWRd8RQJIYHg433QTGayfe6B98';
+
   // Realizar la solicitud fetch
-  fetch('https://default1c0051dd45964b1a9849d060735057.69.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/4e4dce2290cf4fb38568e3681139f7f9/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=iSotLrXkwNwKB4uwabWRd8RQJIYHg433QTGayfe6B98', {
+  fetch(apiUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      nombre: nombre,
-      apellido: apellido
-    })
+    body: JSON.stringify(requestBody)
   })
   .then(response => {
     // Verificar si la respuesta fue exitosa
@@ -42,3 +48,4 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
     console.error('Error:', error);
   });
 });
+
