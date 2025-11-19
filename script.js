@@ -33,20 +33,37 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
     if (!response.ok) {
       throw new Error('Error en la respuesta del servidor');
     }
+
+    // Verificar si la respuesta tiene contenido
+    if (response.status === 204) {
+      // Si la respuesta es vacía (204 No Content), no intentar parsear JSON
+      return null;
+    }
+
+    // Intentar convertir la respuesta en JSON solo si tiene contenido
     return response.json();
   })
   .then(data => {
-    document.getElementById('respuesta').textContent = 'Datos enviados correctamente ✔️';
-    console.log('Respuesta del servidor:', data);
+    // Si se reciben datos, se procesa la respuesta
+    if (data) {
+      document.getElementById('respuesta').textContent = 'Datos enviados correctamente ✔️';
+      console.log('Respuesta del servidor:', data);
+    } else {
+      // Si la respuesta es vacía o no contiene datos, se puede gestionar de otra manera
+      document.getElementById('respuesta').textContent = 'Respuesta vacía del servidor. ✔️';
+    }
 
     // Limpiar los campos
     document.getElementById('nombre').value = '';
     document.getElementById('apellido').value = '';
   })
   .catch(error => {
+    // En caso de error, mostrar un mensaje
     document.getElementById('respuesta').textContent = 'Ocurrió un error ❌';
     console.error('Error:', error);
   });
 });
+
+
 
 
