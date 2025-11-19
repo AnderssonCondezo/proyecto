@@ -34,14 +34,19 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
       throw new Error(`Error en la respuesta del servidor. Código de estado: ${response.status}`);
     }
 
-    // Verificar si la respuesta tiene contenido
+    // Verificar si la respuesta tiene contenido antes de analizarla como JSON
     if (response.status === 204) {
       // Si la respuesta es vacía (204 No Content), no intentar parsear JSON
       return null;
     }
 
-    // Intentar convertir la respuesta en JSON solo si tiene contenido
-    return response.json();
+    // Verificar si la respuesta tiene cuerpo (no es vacía)
+    return response.text().then(text => {
+      if (text) {
+        return JSON.parse(text); // Analizar JSON solo si el texto tiene contenido
+      }
+      return null;
+    });
   })
   .then(data => {
     // Si se reciben datos, se procesa la respuesta
@@ -63,3 +68,4 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
     console.error('Error:', error);
   });
 });
+
