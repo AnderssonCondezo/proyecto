@@ -29,23 +29,35 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
     body: JSON.stringify(requestBody)
   })
   .then(response => {
+    // Verificar el código de estado de la respuesta
+    console.log(`Código de estado de la respuesta: ${response.status}`);
+    
     // Verificar si la respuesta fue exitosa
     if (!response.ok) {
       throw new Error(`Error en la respuesta del servidor. Código de estado: ${response.status}`);
     }
 
-    // Verificar si la respuesta tiene contenido antes de analizarla como JSON
+    // Verificar si la respuesta tiene contenido antes de intentar parsear JSON
     if (response.status === 204) {
       // Si la respuesta es vacía (204 No Content), no intentar parsear JSON
+      console.log('La respuesta está vacía (204 No Content)');
       return null;
     }
 
-    // Verificar si la respuesta tiene cuerpo (no es vacía)
+    // Obtener la respuesta como texto para depurar
     return response.text().then(text => {
+      console.log('Respuesta cruda del servidor:', text);
+
       if (text) {
-        return JSON.parse(text); // Analizar JSON solo si el texto tiene contenido
+        try {
+          return JSON.parse(text);  // Intentar analizar JSON solo si el texto tiene contenido
+        } catch (e) {
+          console.error('Error al intentar analizar la respuesta JSON:', e);
+          throw new Error('Respuesta no válida JSON');
+        }
+      } else {
+        return null; // Si la respuesta está vacía
       }
-      return null;
     });
   })
   .then(data => {
@@ -68,4 +80,3 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
     console.error('Error:', error);
   });
 });
-
