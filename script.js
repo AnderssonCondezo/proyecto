@@ -31,7 +31,7 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
   .then(response => {
     // Verificar el código de estado de la respuesta
     console.log(`Código de estado de la respuesta: ${response.status}`);
-    
+
     // Verificar si la respuesta fue exitosa
     if (!response.ok) {
       throw new Error(`Error en la respuesta del servidor. Código de estado: ${response.status}`);
@@ -39,7 +39,6 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
 
     // Verificar si la respuesta tiene contenido antes de intentar parsear JSON
     if (response.status === 204) {
-      // Si la respuesta es vacía (204 No Content), no intentar parsear JSON
       console.log('La respuesta está vacía (204 No Content)');
       return null;
     }
@@ -50,12 +49,14 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
 
       if (text) {
         try {
-          return JSON.parse(text);  // Intentar analizar JSON solo si el texto tiene contenido
+          // Intentar analizar JSON solo si el texto tiene contenido
+          return JSON.parse(text);
         } catch (e) {
           console.error('Error al intentar analizar la respuesta JSON:', e);
           throw new Error('Respuesta no válida JSON');
         }
       } else {
+        console.log('Respuesta vacía del servidor');
         return null; // Si la respuesta está vacía
       }
     });
